@@ -1,5 +1,5 @@
 {
-  "name": "controle-fabrica",
+  "name": "factory-ops-prototype",
   "version": "0.1.0",
   "private": false,
   "description": "Protótipo de operação fábrica + lojas (estoque, caixa, festa) — Next.js + Dexie",

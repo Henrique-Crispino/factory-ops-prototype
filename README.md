@@ -8,7 +8,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-> Repositório legado `CRM-gp` · **não é CRM**. Protótipo de propósito: validar **regra de negócio** no browser antes de API, auth e estoque centralizado.
+> Repo: `factory-ops-prototype` · **não é CRM**. Protótipo de propósito: validar **regra de negócio** no browser antes de API, auth e estoque centralizado.
 
 ---
 
@@ -70,8 +70,8 @@ Sistema pensado para o dia a dia de uma rede pequena: a **câmara** produz e man
 ### 1. Clonar e instalar
 
 ```bash
-git clone https://github.com/AI-Kairos-LTDA/CRM-gp.git
-cd CRM-gp
+git clone https://github.com/Henrique-Crispino/factory-ops-prototype.git
+cd factory-ops-prototype
 npm install
 ```
 
