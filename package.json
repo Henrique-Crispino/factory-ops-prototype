@@ -1,7 +1,9 @@
 {
-  "name": "gp",
+  "name": "controle-fabrica",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "Protótipo de operação fábrica + lojas (estoque, caixa, festa) — Next.js + Dexie",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

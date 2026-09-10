@@ -68,7 +68,7 @@ export default function FuncionariosPage() {
       <AppShell>
         <PageTitle
           title="Equipe"
-          hint="Uma pessoa, um cadastro. Caixa e consumo interno leem esta lista. Editar a Telma aqui atualiza os dois lados."
+          hint="Uma pessoa, um cadastro. Caixa e consumo interno leem esta lista. Editar a Lia aqui atualiza os dois lados."
         />
 
         <Card className="mb-6 space-y-4">
@@ -76,14 +76,14 @@ export default function FuncionariosPage() {
             <Input
               value={form.name}
               onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-              placeholder="Ex.: Telma"
+              placeholder="Ex.: Lia"
             />
           </Field>
           <div>
             <p className="mb-2 font-bold">Onde esta pessoa trabalha</p>
             <p className="mb-2 text-sm text-stone-500">
-              Loja: caixa no ponto. Fábrica: retira 1× ao dia em qualquer loja, sem caixa. Administração: Matheus e
-              Yokota entram em todos os painéis. Caixa da rede só com o papel de caixa (Yokota).
+              Loja: caixa no ponto. Fábrica: retira 1× ao dia em qualquer loja, sem caixa. Administração: Ana e
+              Carlos entram em todos os painéis. Caixa da rede só com o papel de caixa (Carlos).
             </p>
             <div className="flex flex-wrap gap-2">
               {places.map((place) => (

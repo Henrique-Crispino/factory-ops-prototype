@@ -373,7 +373,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <ConfirmDialog
         open={switchPlace}
         title="Ir para outro lugar?"
-        hint="Toque no sítio. Só os lugares desta ficha — a Telma não vê a administração."
+        hint="Toque no sítio. Só os lugares desta ficha — a Lia não vê a administração."
         confirmHidden
         cancelLabel="Cancelar"
         onCancel={() => setSwitchPlace(false)}

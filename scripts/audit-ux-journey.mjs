@@ -66,7 +66,7 @@ async function journeyStoreMobile(browser) {
   record("Entrada: explica que não é senha da empresa", "info", /não é senha da empresa/i.test(home));
   await shot(page, "mobile-01-entrada");
 
-  await loginAs(page, "Telma");
+  await loginAs(page, "Lia");
   await waitNotLoading(page);
   const header = await page.locator("header.sticky").innerText();
   record("Mobile loja: header contextual", "info", /Você está na/.test(header), header.replace(/\s+/g, " ").slice(0, 100));
@@ -95,7 +95,7 @@ async function journeyStoreMobile(browser) {
 async function journeyAdminMobile(browser) {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, locale: "pt-BR" });
   const page = await ctx.newPage();
-  await loginAs(page, "Matheus");
+  await loginAs(page, "Ana");
   await waitNotLoading(page);
   const nav = await bottomNavCount(page);
   record("Mobile admin: sem bottom nav (só gaveta)", "info", nav === 0, String(nav));
@@ -109,7 +109,7 @@ async function journeyAdminMobile(browser) {
 async function journeyDesktop(browser) {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, locale: "pt-BR" });
   const page = await ctx.newPage();
-  await loginAs(page, "Telma");
+  await loginAs(page, "Lia");
   await waitNotLoading(page);
   const aside = await page.locator("aside.hidden.md\\:flex").isVisible();
   record("Desktop loja: sidebar visível", "info", aside);

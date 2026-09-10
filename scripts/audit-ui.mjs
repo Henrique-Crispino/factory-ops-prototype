@@ -39,7 +39,7 @@ async function setSession(page, locationId, actorId = "emp-telma") {
   );
 }
 
-async function loginAs(page, personName = "Telma") {
+async function loginAs(page, personName = "Lia") {
   await page.goto("http://localhost:3000/", { waitUntil: "domcontentloaded" });
   await waitShell(page);
   await page.getByRole("button", { name: new RegExp(personName, "i") }).click();
@@ -71,7 +71,7 @@ async function waitTeam(page, ms = 20000) {
     await page.waitForFunction(
       () => {
         const buttons = [...document.querySelectorAll("button")].map((node) => node.textContent ?? "");
-        return buttons.some((t) => /Telma/i.test(t)) && buttons.some((t) => /Matheus/i.test(t)) && buttons.some((t) => /Brendão|Brendao/i.test(t));
+        return buttons.some((t) => /Lia/i.test(t)) && buttons.some((t) => /Ana/i.test(t)) && buttons.some((t) => /Bruno|Bruno/i.test(t));
       },
       { timeout: ms },
     );
@@ -148,12 +148,12 @@ async function main() {
   const homeButtons = await page.getByRole("button").allTextContents();
   record(
     "Entrada lista a equipe demo",
-    homeButtons.some((t) => /Telma/i.test(t)) &&
-      homeButtons.some((t) => /Matheus/i.test(t)) &&
-      homeButtons.some((t) => /Brendão|Brendao/i.test(t)),
+    homeButtons.some((t) => /Lia/i.test(t)) &&
+      homeButtons.some((t) => /Ana/i.test(t)) &&
+      homeButtons.some((t) => /Bruno|Bruno/i.test(t)),
     homeButtons.map((t) => t.replace(/\s+/g, " ").trim()).join(" | ").slice(0, 240),
   );
-  await page.getByRole("button", { name: /Telma/i }).click();
+  await page.getByRole("button", { name: /Lia/i }).click();
   record("Porta mostra para onde vai entrar", /Vai entrar em/i.test(await page.locator("body").innerText()));
   await shot(page, "01-entrada");
   await page.waitForTimeout(2500);
@@ -477,7 +477,7 @@ async function main() {
   phone.setDefaultTimeout(45000);
   await phone.goto("http://localhost:3000/");
   await waitShell(phone);
-  await loginAs(phone, "Telma");
+  await loginAs(phone, "Lia");
   await shot(phone, "20-mobile-loja");
   const asideBox = await phone.locator("aside").boundingBox();
   const mainBox = await phone.locator("main").boundingBox();
@@ -498,7 +498,7 @@ async function main() {
 
   await phone.getByRole("button", { name: /^Menu$/ }).click();
   record(
-    "Mobile Telma: sem Ir para outro lugar (só uma loja)",
+    "Mobile Lia: sem Ir para outro lugar (só uma loja)",
     (await phone.getByRole("button", { name: /Ir para outro lugar/i }).count()) === 0,
   );
   await phone.locator('aside button[aria-label="Fechar menu"]').click();
@@ -508,7 +508,7 @@ async function main() {
   await waitShell(phone);
   await phone.getByRole("button", { name: /^Menu$/ }).click();
   record(
-    "Mobile Yokota: gaveta tem Ir para outro lugar",
+    "Mobile Carlos: gaveta tem Ir para outro lugar",
     (await phone.getByRole("button", { name: /Ir para outro lugar/i }).filter({ visible: true }).count()) > 0,
   );
   await phone.locator('aside button[aria-label="Fechar menu"]').click();

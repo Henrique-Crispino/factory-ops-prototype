@@ -108,12 +108,12 @@ async function main() {
   const matheus = DEFAULT_EMPLOYEES.find((person) => person.id === "emp-matheus");
   const brendao = DEFAULT_EMPLOYEES.find((person) => person.id === "emp-brendao");
   record(
-    "Telma não entra na administração",
+    "Lia não entra na administração",
     Boolean(telma && !personCanUsePanel(telma, "admin") && personHomePanelId(telma) === "store_1"),
     telma ? personAllowedPanelIds(telma).join(",") : "sem ficha",
   );
   record(
-    "Yokota cobre todos os painéis",
+    "Carlos cobre todos os painéis",
     Boolean(
       yokota &&
         personCanUsePanel(yokota, "admin") &&
@@ -124,7 +124,7 @@ async function main() {
     yokota ? personAllowedPanelIds(yokota).join(",") : "sem ficha",
   );
   record(
-    "Matheus cobre todos os painéis",
+    "Ana cobre todos os painéis",
     Boolean(
       matheus &&
         personCanUsePanel(matheus, "admin") &&
@@ -135,43 +135,43 @@ async function main() {
     matheus ? personAllowedPanelIds(matheus).join(",") : "sem ficha",
   );
   record(
-    "Brendão só a fábrica",
+    "Bruno só a fábrica",
     Boolean(brendao && personAllowedPanelIds(brendao).join(",") === "factory"),
     brendao ? personAllowedPanelIds(brendao).join(",") : "sem ficha",
   );
-  await expectFail("PIN errado da Telma é recusado", () => verifyOperatorPin("emp-telma", "0000"), "não confere");
-  const telmaOk = (await expectOk("PIN da Telma confere", () => verifyOperatorPin("emp-telma", "1234"))) as
+  await expectFail("PIN errado da Lia é recusado", () => verifyOperatorPin("emp-telma", "0000"), "não confere");
+  const telmaOk = (await expectOk("PIN da Lia confere", () => verifyOperatorPin("emp-telma", "1234"))) as
     | typeof telma
     | null;
   if (telmaOk) {
     enterOperator(telmaOk, "admin");
     record(
-      "Telma cai no Centro mesmo pedindo admin",
+      "Lia cai no Centro mesmo pedindo admin",
       getActorId() === "emp-telma" && getLocationId() === "store_1",
       `actor=${getActorId()} lugar=${getLocationId()}`,
     );
-    await expectFail("Telma não troca para a fábrica", async () => switchOperatorPanel(telmaOk, "factory"), "não é de");
+    await expectFail("Lia não troca para a fábrica", async () => switchOperatorPanel(telmaOk, "factory"), "não é de");
   }
   if (matheus) {
     enterOperator(matheus);
-    record("Matheus entra na administração", getLocationId() === "admin", `lugar=${getLocationId()}`);
+    record("Ana entra na administração", getLocationId() === "admin", `lugar=${getLocationId()}`);
     switchOperatorPanel(matheus, "factory");
-    record("Matheus vai à fábrica", getLocationId() === "factory", `lugar=${getLocationId()}`);
+    record("Ana vai à fábrica", getLocationId() === "factory", `lugar=${getLocationId()}`);
     switchOperatorPanel(matheus, "store_1");
-    record("Matheus vai ao Centro", getLocationId() === "store_1", `lugar=${getLocationId()}`);
+    record("Ana vai ao Centro", getLocationId() === "store_1", `lugar=${getLocationId()}`);
   }
   if (yokota) {
     enterOperator(yokota);
-    record("Yokota entra na administração", getLocationId() === "admin", `lugar=${getLocationId()}`);
+    record("Carlos entra na administração", getLocationId() === "admin", `lugar=${getLocationId()}`);
     switchOperatorPanel(yokota, "factory");
-    record("Yokota vai à fábrica", getLocationId() === "factory", `lugar=${getLocationId()}`);
+    record("Carlos vai à fábrica", getLocationId() === "factory", `lugar=${getLocationId()}`);
     switchOperatorPanel(yokota, "store_2");
-    record("Yokota vai ao Jardim", getLocationId() === "store_2", `lugar=${getLocationId()}`);
+    record("Carlos vai ao Jardim", getLocationId() === "store_2", `lugar=${getLocationId()}`);
   }
   if (brendao) {
     enterOperator(brendao);
-    record("Brendão entra na fábrica", getLocationId() === "factory", `lugar=${getLocationId()}`);
-    await expectFail("Brendão não troca para a administração", async () => switchOperatorPanel(brendao, "admin"), "não é de");
+    record("Bruno entra na fábrica", getLocationId() === "factory", `lugar=${getLocationId()}`);
+    await expectFail("Bruno não troca para a administração", async () => switchOperatorPanel(brendao, "admin"), "não é de");
   }
 
   await expectFail(
@@ -370,12 +370,12 @@ async function main() {
   )) as { id: string } | null;
 
   await expectFail(
-    "Telma não abre o caixa da Loja 2",
+    "Lia não abre o caixa da Loja 2",
     () => openCashSession({ locationId: "store_2", period: "manha", employeeId: "emp-telma", openingAmount: 80 }),
     "não abre",
   );
   await expectFail(
-    "Matheus não abre o caixa da loja",
+    "Ana não abre o caixa da loja",
     () => openCashSession({ locationId: "store_2", period: "manha", employeeId: "emp-matheus", openingAmount: 80 }),
     "não abre",
   );
@@ -384,18 +384,18 @@ async function main() {
     enterOperator(matheus);
     switchOperatorPanel(matheus, "store_1");
     await expectFail(
-      "Matheus não abre caixa no nome da Telma",
+      "Ana não abre caixa no nome da Lia",
       () => openCashSession({ locationId: "store_1", period: "tarde", employeeId: "emp-telma", openingAmount: 150 }),
       "não opera",
     );
     await expectFail(
-      "Matheus não vende no Centro",
+      "Ana não vende no Centro",
       () => checkout({ locationId: "store_1", channel: "caixa", payment: "dinheiro", items: [{ nicheId: "cox-mini", qty: 1 }] }),
       "não opera",
     );
     if (session?.id) {
       await expectFail(
-        "Matheus não sangra",
+        "Ana não sangra",
         () =>
           registerCashMovement({
             sessionId: session.id,
@@ -407,12 +407,12 @@ async function main() {
         "não opera",
       );
       await expectFail(
-        "Matheus não fecha caixa",
+        "Ana não fecha caixa",
         () => closeCashSession({ sessionId: session.id, closingAmount: 150 }),
         "não opera",
       );
       await expectFail(
-        "Matheus não retira produto+dinheiro",
+        "Ana não retira produto+dinheiro",
         () =>
           withdrawProductAndCash({
             locationId: "store_1",
@@ -426,7 +426,7 @@ async function main() {
       );
     }
     switchOperatorPanel(matheus, "admin");
-    await expectOk("Matheus continua na administração", async () => getLocationId() === "admin");
+    await expectOk("Ana continua na administração", async () => getLocationId() === "admin");
   }
   if (yokota) enterOperator(yokota);
 
@@ -518,8 +518,8 @@ async function main() {
     const paper = await reportRomaneio(transferId);
     record(
       "Romaneio lê a ficha, não Rita nem Fábrica",
-      paper.subtitle.includes("Expedido por Yokota") &&
-        paper.subtitle.includes("Conferido por Yokota") &&
+      paper.subtitle.includes("Expedido por Carlos") &&
+        paper.subtitle.includes("Conferido por Carlos") &&
         !paper.subtitle.includes("Rita") &&
         !paper.subtitle.includes("Ana") &&
         !paper.subtitle.includes("Expedido por Fábrica"),
@@ -731,7 +731,7 @@ async function main() {
     const closedSession = await db.cashSessions.get(session.id);
     record(
       "Fechamento grava a ficha de quem conferiu",
-      closedSession?.recountedById === "emp-telma" && closedSession?.recountedBy === "Telma",
+      closedSession?.recountedById === "emp-telma" && closedSession?.recountedBy === "Lia",
       `id=${closedSession?.recountedById} nome=${closedSession?.recountedBy}`,
     );
     await expectFail(
@@ -853,7 +853,7 @@ async function main() {
     () =>
       registerInternalConsume({
         locationId: "factory",
-        login: "brendao",
+        login: "bruno",
         password: "1234",
         items: [{ nicheId: "cox-mini", qty: 1 }],
       }),
@@ -865,7 +865,7 @@ async function main() {
     () =>
       registerInternalConsume({
         locationId: "store_2",
-        login: "yokota",
+        login: "carlos",
         password: "1234",
         items: [{ nicheId: "cox-mini", qty: 1 }],
       }),
@@ -877,11 +877,11 @@ async function main() {
   );
 
   await expectFail(
-    "Telma da Loja 1 não consome na Loja 2",
+    "Lia da Loja 1 não consome na Loja 2",
     () =>
       registerInternalConsume({
         locationId: "store_2",
-        login: "telma",
+        login: "lia",
         password: "1234",
         items: [{ nicheId: "cox-mini", qty: 1 }],
       }),
@@ -890,27 +890,27 @@ async function main() {
 
   const storeStock = await stockQty("store_1", "cox-mini");
   if (storeStock > 0) {
-    await expectOk("Brendão (fábrica) consome 1 na Loja 1", () =>
+    await expectOk("Bruno (fábrica) consome 1 na Loja 1", () =>
       registerInternalConsume({
         locationId: "store_1",
-        login: "brendao",
+        login: "bruno",
         password: "1234",
         items: [{ nicheId: "cox-mini", qty: 1 }],
       }),
     );
     await expectFail(
-      "Brendão não consome 2× no mesmo dia",
+      "Bruno não consome 2× no mesmo dia",
       () =>
         registerInternalConsume({
           locationId: "store_1",
-          login: "brendao",
+          login: "bruno",
           password: "1234",
           items: [{ nicheId: "cox-mini", qty: 1 }],
         }),
       "1 vez",
     );
   } else {
-    record("Brendão (fábrica) consome 1 na Loja 1", false, "loja sem saldo para consumo");
+    record("Bruno (fábrica) consome 1 na Loja 1", false, "loja sem saldo para consumo");
   }
 
   await db.products.add({
@@ -962,7 +962,7 @@ async function main() {
     () =>
       registerInternalConsume({
         locationId: "store_1",
-        login: "telma",
+        login: "lia",
         password: "1234",
         items: [
           { nicheId: "pas-local", qty: 2 },
@@ -971,10 +971,10 @@ async function main() {
       }),
     "cota",
   );
-  await expectOk("Telma leva 2 pastéis + 1 coxinha na cota", () =>
+  await expectOk("Lia leva 2 pastéis + 1 coxinha na cota", () =>
     registerInternalConsume({
       locationId: "store_1",
-      login: "telma",
+      login: "lia",
       password: "1234",
       items: [
         { nicheId: "pas-local", qty: 2 },
@@ -982,7 +982,7 @@ async function main() {
       ],
     }),
   );
-  const kardexTelma = await loadKardex({
+  const kardexLia = await loadKardex({
     nicheId: "cox-mini",
     locationId: "store_1",
     from: startOfDayIso(today),
@@ -990,18 +990,18 @@ async function main() {
   });
   record(
     "Extrato da loja lista consumo interno com ficha",
-    kardexTelma.rows.some((row) => row.type === "internal" && row.who.includes("Telma") && row.qty === -1),
-    kardexTelma.rows
+    kardexLia.rows.some((row) => row.type === "internal" && row.who.includes("Lia") && row.qty === -1),
+    kardexLia.rows
       .filter((row) => row.type === "internal")
       .map((row) => `${row.who} · ${row.qty}`)
       .join(" · ") || "vazio",
   );
   await expectFail(
-    "Quarto salgado da Telma é recusado pela cota",
+    "Quarto salgado da Lia é recusado pela cota",
     () =>
       registerInternalConsume({
         locationId: "store_1",
-        login: "telma",
+        login: "lia",
         password: "1234",
         items: [{ nicheId: "pas-local", qty: 1 }],
       }),
@@ -1191,7 +1191,7 @@ async function main() {
   const inventoryCount = (await db.inventoryCounts.toArray()).sort((a, b) => b.at.localeCompare(a.at))[0];
   record(
     "Inventário grava a ficha de quem conferiu",
-    inventoryCount?.recountedById === "emp-telma" && inventoryCount?.recountedBy === "Telma",
+    inventoryCount?.recountedById === "emp-telma" && inventoryCount?.recountedBy === "Lia",
     `id=${inventoryCount?.recountedById} nome=${inventoryCount?.recountedBy}`,
   );
 
@@ -1257,7 +1257,7 @@ async function main() {
     const pack = await reportDayPack(reportWindow("today"), "store_1");
     if (!pack.rows.length) throw new Error("folha vazia");
     const text = pack.rows.map((row) => row.join(" ")).join(" | ");
-    if (!text.includes("Yokota") || !text.includes("Telma")) {
+    if (!text.includes("Carlos") || !text.includes("Lia")) {
       throw new Error(`folha sem ficha: ${text}`);
     }
     return `${pack.title} · ${pack.rows.length} linhas`;

@@ -108,7 +108,7 @@ export async function assertWitness(
   }
   const expected = person.password?.trim() ?? "";
   if (expected.length < 4) {
-    throw new ErrorClass(`${person.name} ainda não tem PIN. O Yokota cadastra na Equipe.`);
+    throw new ErrorClass(`${person.name} ainda não tem PIN. O Carlos cadastra na Equipe.`);
   }
   if ((input.pin ?? "").trim() !== expected) {
     throw new ErrorClass("PIN de quem conferiu não confere.");

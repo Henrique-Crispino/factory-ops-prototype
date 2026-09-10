@@ -90,7 +90,7 @@ export default function ConsumoAdminPage() {
                 <Input
                   value={form.name}
                   onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-                  placeholder="Ex.: Telma"
+                  placeholder="Ex.: Lia"
                 />
               </Field>
               <div className="grid gap-4 sm:grid-cols-2">

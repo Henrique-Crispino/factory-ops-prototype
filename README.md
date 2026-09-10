@@ -6,21 +6,24 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-> Repositório legado `CRM-gp` · **não é CRM**. Software sob medida para validar **regra de negócio** antes de produção (API, auth, estoque centralizado).
+> Repositório legado `CRM-gp` · **não é CRM**. Protótipo de propósito: validar **regra de negócio** no browser antes de API, auth e estoque centralizado.
 
 ---
 
 ## Sobre o projeto
 
-Sistema pensado para o dia a dia de uma rede real: a **câmara** produz e manda, a **loja** vende com caixa aberto, o **admin** enxerga a rede. Tudo com regras explícitas — FIFO que pula vencido, pedido que reserva estoque, festa com sinal separada do balcão.
+Sistema pensado para o dia a dia de uma rede pequena: a **câmara** produz e manda, a **loja** vende com caixa aberto, o **admin** enxerga a rede. Regras explícitas — FIFO que pula vencido, pedido que reserva estoque, festa com sinal separada do balcão.
 
 **Destaques técnicos:**
 
 - App Router (Next.js 16) com UI responsiva (desktop + telefone)
 - Persistência **100 % client-side** com Dexie (IndexedDB)
 - Domínio rico em TypeScript: caixa, estoque, encomendas, volume da fábrica
-- Suite de auditoria automatizada (**226 cenários**)
+- Suite de auditoria automatizada (**243** cenários de fluxo + **71** de UI)
+
+**Posicionamento:** case de portfólio / demo de domínio. Não é SaaS comercial nem ERP em produção.
 
 ---
 
@@ -46,7 +49,7 @@ Sistema pensado para o dia a dia de uma rede real: a **câmara** produz e manda,
 | Linguagem | TypeScript 5 |
 | Dados | Dexie 4 + IndexedDB (`gp-salgados`) |
 | Gráficos | Recharts 3 |
-| Qualidade | ESLint 9, script de auditoria (`tsx`) |
+| Qualidade | ESLint 9, scripts de auditoria (`tsx` + Chrome headless) |
 
 **Arquitetura:** sem API REST nem banco remoto neste protótipo. Cada navegador mantém seu próprio IndexedDB (útil para demo; limitação consciente para produção).
 
@@ -60,8 +63,6 @@ Sistema pensado para o dia a dia de uma rede real: a **câmara** produz e manda,
 | **npm** | 10+ (vem com Node) |
 | **Navegador** | Chrome ou Edge (recomendado para IndexedDB) |
 
-Opcional: [Git](https://git-scm.com/) para clonar o repositório.
-
 ---
 
 ## Como rodar
@@ -69,8 +70,8 @@ Opcional: [Git](https://git-scm.com/) para clonar o repositório.
 ### 1. Clonar e instalar
 
 ```bash
-git clone https://github.com/Henrique-Crispino/CRM-ZeDaMassa.git
-cd CRM-ZeDaMassa
+git clone https://github.com/AI-Kairos-LTDA/CRM-gp.git
+cd CRM-gp
 npm install
 ```
 
@@ -89,8 +90,6 @@ npm run build
 npm run start
 ```
 
-A aplicação sobe em **http://localhost:3000** servindo o build otimizado.
-
 ---
 
 ## Scripts disponíveis
@@ -102,6 +101,7 @@ A aplicação sobe em **http://localhost:3000** servindo o build otimizado.
 | `npm run start` | Sobe o build (requer `build` antes) |
 | `npm run lint` | ESLint no projeto |
 | `npx tsx scripts/audit-flows.mts` | Auditoria automatizada de regras de negócio |
+| `node scripts/audit-ui.mjs` | Smoke de UI no Chrome (requer dependências do script) |
 
 ---
 
@@ -111,17 +111,17 @@ Na tela inicial (`/`), escolha quem opera e use o PIN **`1234`**.
 
 | Personagem | Papel | Acesso |
 |------------|-------|--------|
-| **Matheus** | Dono | Admin · todos os painéis · sem caixa na ficha |
-| **Yokota** | Gerente | Admin · todos os painéis · abre caixa em qualquer loja |
-| **Telma** | Operadora de caixa | Loja Centro |
-| **Brendão** | Fábrica | Produção, envio, cliente levou |
+| **Ana** | Dono | Admin · todos os painéis · sem caixa na ficha |
+| **Carlos** | Gerente | Admin · todos os painéis · abre caixa em qualquer loja |
+| **Lia** | Operadora de caixa | Loja Centro |
+| **Bruno** | Fábrica | Produção, envio, cliente levou |
 
 **Fluxo sugerido para testar:**
 
-1. Entrar como **Telma** → abrir caixa → vender
-2. Trocar para **Brendão** (rodapé: *Ir para outro lugar*) → produzir → mandar para loja
+1. Entrar como **Lia** → abrir caixa → vender
+2. Trocar para **Bruno** (rodapé: *Ir para outro lugar*) → produzir → mandar para loja
 3. Voltar à loja → **Receber** → conferir envio
-4. Entrar como **Yokota** na admin → ver dashboard e relatórios
+4. Entrar como **Carlos** na admin → ver dashboard e relatórios
 
 Lojas do exemplo: **Loja Centro** e **Loja Jardim**.
 
@@ -135,35 +135,35 @@ Lojas do exemplo: **Loja Centro** e **Loja Jardim**.
 │   ├── components/          # UI, AppShell, dashboards
 │   └── lib/                 # Regra de negócio
 │       ├── stock.ts         # Estoque, venda, produção, inventário
-│       ├── cash.ts            # Caixa, sangria, fechamento
-│       ├── encomendas.ts      # Festa, sinal, entrega
-│       ├── requests.ts        # Pedido da loja / poço
-│       ├── factory-orders.ts  # Volume da câmara
-│       ├── actor.ts           # Quem opera, testemunha
-│       └── seed.ts            # Dados de demonstração
+│       ├── cash.ts          # Caixa, sangria, fechamento
+│       ├── encomendas.ts    # Festa, sinal, entrega
+│       ├── requests.ts      # Pedido da loja / poço
+│       ├── factory-orders.ts
+│       ├── actor.ts         # Quem opera, testemunha
+│       └── seed.ts          # Dados de demonstração
 └── scripts/
-    └── audit-flows.mts       # 226 testes de fluxo
+    ├── audit-flows.mts      # 243 testes de fluxo
+    └── audit-ui.mjs         # Smoke de UI
 ```
 
 ---
 
 ## Testes e qualidade
 
-Auditoria de fluxos críticos (caixa, FIFO, festa, consumo, identidade):
-
 ```bash
 npx tsx scripts/audit-flows.mts
+node scripts/audit-ui.mjs
 ```
 
-Resultado esperado: **233/233 PASS** (lib) e **71/71 PASS** (UI no Chrome).
+Resultado esperado: **243/243 PASS** (lib) e **71/71 PASS** (UI no Chrome).
 
 ---
 
 ## Status do protótipo
 
-- Temporada 10 fechada no código (identidade, trilha, festa fora do balcão)
-- QA classe **B** fechada (B-01 a B-14)
-- Pendente classe **A** (B-15): PIN em texto, DevTools, multi-dispositivo → escopo de produção
+- Temporadas 1–11 fechadas no código (caps 01–61)
+- Suite de auditoria de fluxos e UI em verde
+- Limitação consciente (classe A): PIN em texto, DevTools, multi-dispositivo → escopo de produção
 
 ---
 
@@ -176,22 +176,33 @@ Este repositório **valida regra**, não substitui ERP em produção:
 - Sem NF-e, motoboy real, delivery operacional ou crediário
 - “Delivery” na venda é **rótulo** de relatório, não logística
 
-Roadmap de produção (API, auth, estoque único) fica fora deste protótipo.
+---
+
+## Próximos passos (produção — fora deste repo)
+
+Caminho natural se o protótipo virasse sistema de loja:
+
+1. **API + banco** (ex.: Postgres) — estoque único entre dispositivos
+2. **Auth de verdade** — sem PIN em texto / IndexedDB como fonte da verdade
+3. **Hospedagem** e backup — fora do Chrome de uma máquina só
+4. Escopos à parte (NF-e, logística, etc.) quando a operação pedir
+
+Neste repositório isso **não** está implementado de propósito: o valor do case é o domínio modelado e a suite de auditoria.
 
 ---
 
-## Documentação
+## Documentação interna
 
-O vault Obsidian (`docs/`) fica **só na máquina de quem desenvolve** — não está no GitHub. Contexto de produto, capítulos de regra, auditorias e guias de UI vivem aí localmente.
+Notas de produto / capítulos de regra ficam **só na máquina de desenvolvimento** (`docs/` no `.gitignore`) — não fazem parte do repositório público.
 
 ---
 
 ## Licença
 
-Projeto privado — uso interno da rede. Não é SaaS nem white-label.
+[MIT](./LICENSE) — uso livre para estudo, demo e portfólio.
 
 ---
 
 <p align="center">
-  Desenvolvido como protótipo de propósito · Next.js + TypeScript + Dexie
+  Protótipo de propósito · Next.js + TypeScript + Dexie · portfólio
 </p>

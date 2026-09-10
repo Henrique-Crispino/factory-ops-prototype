@@ -247,48 +247,48 @@ const PLAN: Record<string, { produce: number; store1: number; store2: number }> 
 
 export const PERSON_MATHEUS: Employee = {
   id: "emp-matheus",
-  name: "Matheus",
+  name: "Ana",
   storeId: "",
   locationId: "admin",
   podeCaixa: false,
   podeConsumo: false,
-  login: "matheus",
+  login: "ana",
   password: "1234",
   active: true,
 };
 
 export const PERSON_YOKOTA: Employee = {
   id: "emp-yokota",
-  name: "Yokota",
+  name: "Carlos",
   storeId: "",
   locationId: "admin",
   podeCaixa: true,
   podeConsumo: true,
-  login: "yokota",
+  login: "carlos",
   password: "1234",
   active: true,
 };
 
 export const PERSON_TELMA: Employee = {
   id: "emp-telma",
-  name: "Telma",
+  name: "Lia",
   storeId: "store_1",
   locationId: "store_1",
   podeCaixa: true,
   podeConsumo: true,
-  login: "telma",
+  login: "lia",
   password: "1234",
   active: true,
 };
 
 export const PERSON_BRENDAO: Employee = {
   id: "emp-brendao",
-  name: "Brendão",
+  name: "Bruno",
   storeId: "",
   locationId: "factory",
   podeCaixa: false,
   podeConsumo: true,
-  login: "brendao",
+  login: "bruno",
   password: "1234",
   active: true,
 };
@@ -380,7 +380,7 @@ export const DEFAULT_CUSTOMERS: Customer[] = [
     id: "cust-cantina-escola",
     name: "Cantina da Escola",
     phone: "(11) 94444-5050",
-    note: "Sexta, recreio. Pedido aberto na fila para o Brendão separar.",
+    note: "Sexta, recreio. Pedido aberto na fila para o Bruno separar.",
     address: "Rua do Colégio, 8",
     kind: "volume",
     usualWeekdays: [5],
@@ -566,7 +566,7 @@ async function ensureVolumeStory() {
   await seedVolumeOrder({
     id: "fo-vol-cantina",
     customerId: "cust-cantina-escola",
-    note: "Recreio da tarde. O Brendão ainda separa — Cliente levou.",
+    note: "Recreio da tarde. O Bruno ainda separa — Cliente levou.",
     at: dayAt(0, 8, 40).toISOString(),
     items: [
       { nicheId: "cox-festa", qty: 30 },
@@ -674,7 +674,7 @@ function refreshDemoWindows() {
 export async function ensureDemoData() {
   const today = todayDate();
   if (!(await hasOperationalData())) {
-    await loadDemoData();
+  await loadDemoData();
     return true;
   }
   const asOf = (await getDb().settings.get(DEMO_AS_OF_SETTING))?.value;
@@ -1439,9 +1439,9 @@ export async function loadDemoData(opts?: { force?: boolean }) {
 
   await runAsActor(PERSON_TELMA.id, () =>
     createStoreRequest({
-      fromLocationId: "store_1",
+    fromLocationId: "store_1",
       note: "Cliente da festa de aniversário amanhã. Festa e pastel.",
-      items: [
+    items: [
         { nicheId: "cox-festa", qty: 40 },
         { nicheId: "pas-local", qty: 15 },
       ],
@@ -1449,7 +1449,7 @@ export async function loadDemoData(opts?: { force?: boolean }) {
   );
   await runAsActor(PERSON_YOKOTA.id, () =>
     createStoreRequest({
-      fromLocationId: "store_2",
+    fromLocationId: "store_2",
       note: "Geladeira do Jardim no fim. Mandar lata.",
       items: [{ nicheId: "coca-350", qty: 18 }],
     }),

@@ -19,7 +19,7 @@ export async function verifyOperatorPin(personId: string, pin: string) {
   if (!person?.active) throw new PeopleError("Escolha quem está operando.");
   const expected = person.password?.trim() ?? "";
   if (expected.length < 4) {
-    throw new PeopleError("Esta ficha ainda não tem PIN. O Yokota cadastra na Equipe.");
+    throw new PeopleError("Esta ficha ainda não tem PIN. O Carlos cadastra na Equipe.");
   }
   if (pin.trim() !== expected) throw new PeopleError("PIN não confere.");
   return person;

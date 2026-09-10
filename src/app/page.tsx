@@ -44,7 +44,7 @@ export default function HomePage() {
         <p className="text-sm font-bold uppercase tracking-wide text-orange-700">Controle da fábrica</p>
         <h1 className="mt-2 text-4xl font-extrabold leading-tight text-stone-900">Quem está operando?</h1>
         <p className="mt-3 max-w-xl text-lg leading-relaxed text-stone-600">
-          Escolha o nome. Depois o PIN da ficha. Matheus e Yokota entram em qualquer painel. A Telma não abre a
+          Escolha o nome. Depois o PIN da ficha. Ana e Carlos entram em qualquer painel. A Lia não abre a
           administração. Isto não é senha da empresa — é para não misturar o trabalho neste computador.
         </p>
         {!ready || people === undefined ? (

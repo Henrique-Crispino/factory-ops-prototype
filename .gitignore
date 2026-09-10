@@ -43,6 +43,13 @@ next-env.d.ts
 # vault Obsidian — só local, não sobe pro GitHub
 /docs/
 
+# Scripts e relatórios só do vault (Obsidian) — não fazem parte do portfólio
+scripts/apply-extended-graph-config.mjs
+scripts/audit-vault-links.mjs
+scripts/backup-vault.ps1
+scripts/vault-graph-importance.ps1
+scripts/vault-links-report.txt
+
 # Prints e JSON de passeio no Chrome (gerados na máquina)
 scripts/audit-shots/
 scripts/audit-*-result.json
