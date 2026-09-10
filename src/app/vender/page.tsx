@@ -14,6 +14,7 @@ import {
   ErrorBox,
   Field,
   Input,
+  LoadingCard,
   NumberStepper,
   PageTitle,
   SuccessBox,
@@ -469,7 +470,11 @@ export default function VenderPage() {
                 );
               })
             : null}
-          {catalog.length === 0 && comboOffers.length === 0 ? (
+          {stock === undefined || combos === undefined ? (
+            <div className="sm:col-span-2">
+              <LoadingCard hint="Carregando o estoque..." />
+            </div>
+          ) : catalog.length === 0 && comboOffers.length === 0 ? (
             <div className="sm:col-span-2">
               {search.trim() ? (
                 <Empty

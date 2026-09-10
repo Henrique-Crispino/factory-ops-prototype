@@ -72,7 +72,7 @@ export default function ClientesPage() {
       {form.kind === "volume" ? (
         <div>
           <p className="mb-2 font-bold">Costuma pedir</p>
-          <p className="mb-2 text-sm text-stone-500">A Rita marca. Não inventa quantidade. O sino avisa na véspera.</p>
+          <p className="mb-2 text-sm text-stone-500">Marque os dias. Não inventa quantidade. O sino avisa na véspera.</p>
           <div className="flex flex-wrap gap-2">
             {WEEKDAYS.map((day) => {
               const on = form.usualWeekdays.includes(day.id);

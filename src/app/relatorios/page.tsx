@@ -6,7 +6,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { AppShell } from "@/components/AppShell";
 import { DateRangeFilter } from "@/components/DateRangeFilter";
 import { ReportPreview } from "@/components/ReportPreview";
-import { Button, Card, Empty, PageTitle } from "@/components/ui";
+import { Button, Card, Empty, LoadingCard, PageTitle } from "@/components/ui";
 import { getDb } from "@/lib/db";
 import { getLocation, getPanel, storeLocations } from "@/lib/locations";
 import { personCanUsePanel } from "@/lib/people";
@@ -74,7 +74,7 @@ export default function RelatoriosPage() {
   if (ready && person === undefined) {
     return (
       <AppShell>
-        <Empty title="Carregando..." hint="Aguarde um instante." />
+        <LoadingCard hint="Carregando a ficha..." />
       </AppShell>
     );
   }

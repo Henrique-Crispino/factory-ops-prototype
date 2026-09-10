@@ -294,7 +294,7 @@ async function main() {
   await page.getByRole("button", { name: /^Sair$/i }).first().click();
   await page.getByRole("dialog").waitFor();
   const leaveCopy = await page.getByRole("dialog").innerText();
-  record("Sair pede confirmação", /Sair da|Ficar aqui/i.test(leaveCopy), leaveCopy.replace(/\s+/g, " ").slice(0, 160));
+  record("Sair pede confirmação", /Sair como|Sair da|Ficar aqui/i.test(leaveCopy), leaveCopy.replace(/\s+/g, " ").slice(0, 160));
   await page.getByRole("dialog").getByRole("button", { name: /Ficar aqui/i }).click();
   await page.waitForTimeout(400);
   record("Depois de cancelar sair, continua logado", /Você está na/.test(await page.locator("body").innerText()));

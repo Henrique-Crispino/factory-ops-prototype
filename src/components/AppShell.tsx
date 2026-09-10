@@ -356,7 +356,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <ConfirmDialog
         open={leave}
-        title={who ? `Sair da ${who} neste computador?` : "Sair?"}
+        title={who ? `Sair como ${who} neste computador?` : "Sair?"}
         hint="Depois escolhe de novo quem opera. Isto não é senha da empresa. Os dados deste computador continuam aqui."
         confirmLabel="Sair"
         confirmVariant="secondary"
@@ -373,7 +373,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <ConfirmDialog
         open={switchPlace}
         title="Ir para outro lugar?"
-        hint="Toque no sítio. Só os lugares desta ficha — a Lia não vê a administração."
+        hint="Toque no sítio. Só os lugares desta ficha — quem é só de loja ou só de fábrica não vê a administração."
         confirmHidden
         cancelLabel="Cancelar"
         onCancel={() => setSwitchPlace(false)}

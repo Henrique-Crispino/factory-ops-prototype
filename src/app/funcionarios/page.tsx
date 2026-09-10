@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AccessGate } from "@/components/AccessGate";
 import { AppShell } from "@/components/AppShell";
-import { Button, Card, Empty, ErrorBox, Field, Input, PageTitle, SuccessBox } from "@/components/ui";
+import { Button, Card, Empty, ErrorBox, Field, Input, LoadingCard, PageTitle, SuccessBox } from "@/components/ui";
 import { Pager, usePager } from "@/components/pager";
 import { consumeWorkplaceLabel } from "@/lib/consume";
 import {
@@ -68,7 +68,7 @@ export default function FuncionariosPage() {
       <AppShell>
         <PageTitle
           title="Equipe"
-          hint="Uma pessoa, um cadastro. Caixa e consumo interno leem esta lista. Editar a Lia aqui atualiza os dois lados."
+          hint="Uma pessoa, um cadastro. Caixa e consumo interno leem esta lista. Editar alguém aqui atualiza os dois lados."
         />
 
         <Card className="mb-6 space-y-4">
@@ -82,8 +82,8 @@ export default function FuncionariosPage() {
           <div>
             <p className="mb-2 font-bold">Onde esta pessoa trabalha</p>
             <p className="mb-2 text-sm text-stone-500">
-              Loja: caixa no ponto. Fábrica: retira 1× ao dia em qualquer loja, sem caixa. Administração: Ana e
-              Carlos entram em todos os painéis. Caixa da rede só com o papel de caixa (Carlos).
+              Loja: caixa no ponto. Fábrica: retira 1× ao dia em qualquer loja, sem caixa. Administração: todos os
+              painéis. Caixa da rede só com o papel de caixa marcado na ficha.
             </p>
             <div className="flex flex-wrap gap-2">
               {places.map((place) => (
@@ -205,7 +205,9 @@ export default function FuncionariosPage() {
           </div>
         </Card>
 
-        {!active.length ? (
+        {people === undefined ? (
+          <LoadingCard hint="Carregando a equipe..." />
+        ) : !active.length ? (
           <Empty title="Ninguém cadastrado ainda" hint="Cadastre quem abre o caixa e quem retira consumo interno." />
         ) : (
           <div ref={list.listRef} className="scroll-mt-36 space-y-3">

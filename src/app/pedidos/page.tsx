@@ -6,7 +6,7 @@ import { AppShell } from "@/components/AppShell";
 import { FactoryStockSummary } from "@/components/FactoryStockSummary";
 import { ConfirmDialog } from "@/components/pick-flow";
 import { ReportPreview } from "@/components/ReportPreview";
-import { Button, Card, Empty, ErrorBox, NumberStepper, PageTitle, SuccessBox } from "@/components/ui";
+import { Button, Card, Empty, ErrorBox, LoadingCard, NumberStepper, PageTitle, SuccessBox } from "@/components/ui";
 import { PageBoard, Pager, usePager } from "@/components/pager";
 import { cancelFactoryOrder, deliverFactoryOrder, FactoryOrderError, listFactoryOrders, quoteFactoryOrder } from "@/lib/factory-orders";
 import { partyMoneyPhrase } from "@/lib/encomendas";
@@ -195,7 +195,7 @@ export default function PedidosPage() {
         title="Pedidos"
         hint={
           canSend
-            ? "Festa da loja: a Rita só vê depois que a loja recebeu o sinal. Volume (revendedor): retira na câmara e paga aqui — não passa pela loja."
+            ? "Festa da loja: a fábrica só vê depois que a loja recebeu o sinal. Volume (revendedor): retira na câmara e paga aqui — não passa pela loja."
             : "Festas das lojas (com sinal) e pedidos de revendedores na mesma fila. Quem manda estoque para a loja é a fábrica."
         }
       />
@@ -204,7 +204,9 @@ export default function PedidosPage() {
 
       {canSend ? <FactoryStockSummary pageSize={8} /> : null}
 
-      {pending.length === 0 ? (
+      {requests === undefined || orders === undefined ? (
+        <LoadingCard hint="Carregando a fila..." />
+      ) : pending.length === 0 ? (
         <Empty title="Nenhum pedido esperando" hint="Festas aparecem quando a loja recebe o sinal. Revendedores entram ao pedir na câmara." />
       ) : (
         <div>

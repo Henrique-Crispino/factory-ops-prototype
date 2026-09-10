@@ -6,7 +6,10 @@ import { DiscardExpiredBanner } from "@/components/DiscardExpiredBanner";
 import { OpenParties } from "@/components/OpenParties";
 import { Card, PageTitle } from "@/components/ui";
 import { currentCashSession, cashPeriodLabel } from "@/lib/cash";
+import { getDb } from "@/lib/db";
+import { personCanCash } from "@/lib/people";
 import { expiryAlertsFor } from "@/lib/queries";
+import { getActorId } from "@/lib/session";
 import { useReady } from "@/lib/use-ready";
 
 export function StoreDashboard({
@@ -17,6 +20,8 @@ export function StoreDashboard({
   storeName: string;
 }) {
   const ready = useReady();
+  const actorId = ready ? getActorId() : null;
+  const person = useLiveQuery(() => (actorId ? getDb().employees.get(actorId) : undefined), [actorId]);
   const session = useLiveQuery(
     () => (ready ? currentCashSession(locationId) : undefined),
     [ready, locationId],
@@ -26,6 +31,7 @@ export function StoreDashboard({
     [ready, locationId],
   );
   const expiredHere = (expiry ?? []).filter((item) => item.level === "expired");
+  const canOpenCash = person ? personCanCash(person) : false;
 
   return (
     <div>
@@ -52,13 +58,21 @@ export function StoreDashboard({
       ) : (
         <Card className="mb-6 bg-red-50 ring-red-200">
           <p className="font-extrabold text-red-800">O caixa desta loja está fechado.</p>
-          <p className="mt-1 text-stone-700">Abra o período da manhã ou da tarde antes de vender.</p>
-          <Link
-            href="/caixa"
-            className="mt-3 inline-flex min-h-12 items-center rounded-2xl bg-red-600 px-4 font-bold text-white"
-          >
-            Abrir caixa
-          </Link>
+          {canOpenCash ? (
+            <>
+              <p className="mt-1 text-stone-700">Abra o período da manhã ou da tarde antes de vender.</p>
+              <Link
+                href="/caixa"
+                className="mt-3 inline-flex min-h-12 items-center rounded-2xl bg-red-600 px-4 font-bold text-white"
+              >
+                Abrir caixa
+              </Link>
+            </>
+          ) : (
+            <p className="mt-1 text-stone-700">
+              Esta ficha não abre a gaveta. Peça para quem opera o caixa nesta loja ou volte à administração.
+            </p>
+          )}
         </Card>
       )}
 

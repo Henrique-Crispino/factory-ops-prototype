@@ -23,6 +23,7 @@ import {
   ErrorBox,
   Field,
   Input,
+  LoadingCard,
   NumberStepper,
   PageTitle,
   SuccessBox,
@@ -490,7 +491,9 @@ export default function PedirPage() {
           </Card>
         ) : null}
 
-        {!showCatalog ? null : !catalog?.length ? (
+        {!showCatalog ? null : catalog === undefined ? (
+          <LoadingCard hint="Carregando o catálogo..." />
+        ) : !catalog.length ? (
           <Empty title="Cadastre os produtos primeiro" hint="Sem produto, não tem o que pedir." />
         ) : grouped.length === 0 ? (
           <Empty

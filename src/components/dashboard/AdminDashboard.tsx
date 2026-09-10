@@ -88,6 +88,7 @@ export function AdminDashboard({
         </MetricGrid>
       </div>
 
+      {/* Grade 3×2: Vendeu · Compra · Lucro / Sobra · Custo perdas · Descarte */}
       <div className="hidden md:block">
         <MetricGrid>
           <MetricCard label={`Vendeu ${label}`} value={formatBRL(data.revenue)} hint={`${data.salesCount} vendas nas lojas`} />
@@ -103,26 +104,23 @@ export function AdminDashboard({
             hint={`${formatBRL(data.wasteRevenue)} deixou de vender`}
             alert={data.wasteQty > 0}
           />
+          <MetricCard
+            label="Custo das perdas"
+            value={formatBRL(data.wasteCost)}
+            hint={`Sobra do dia · ${data.wasteQty} un. · ${formatBRL(data.wasteRevenue)} deixou de vender`}
+            alert={data.wasteCost > 0}
+          />
+          <MetricCard
+            label="Descarte por validade"
+            value={`${data.expiredQty} un.`}
+            hint={
+              data.expiredQty > 0
+                ? `${formatBRL(data.expiredCost)} de custo · ${formatBRL(data.expiredRevenue)} deixou de vender`
+                : "Nada descartado neste recorte."
+            }
+            alert={data.expiredQty > 0}
+          />
         </MetricGrid>
-      </div>
-
-      <div className="mt-4 hidden gap-4 md:grid sm:grid-cols-2 xl:grid-cols-3">
-        <MetricCard
-          label="Custo das perdas"
-          value={formatBRL(data.wasteCost)}
-          hint={`Sobra do dia · ${data.wasteQty} un. · ${formatBRL(data.wasteRevenue)} deixou de vender`}
-          alert={data.wasteCost > 0}
-        />
-        <MetricCard
-          label="Descarte por validade"
-          value={`${data.expiredQty} un.`}
-          hint={
-            data.expiredQty > 0
-              ? `${formatBRL(data.expiredCost)} de custo · ${formatBRL(data.expiredRevenue)} deixou de vender`
-              : "Nada descartado neste recorte."
-          }
-          alert={data.expiredQty > 0}
-        />
       </div>
 
       <OpenParties />

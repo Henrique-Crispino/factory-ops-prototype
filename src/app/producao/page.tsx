@@ -44,7 +44,7 @@ export default function ProducaoPage() {
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <PageTitle
             title="Registro de produção"
-            hint="O recorte é o dia em que o lote foi feito, não o horário em que a Rita lançou."
+            hint="O recorte é o dia em que o lote foi feito, não o horário do lançamento."
           />
           {panel?.type === "factory" ? (
             <Link
